@@ -1,0 +1,19 @@
+plugins {
+    id "com.github.node-gradle.node" version "2.2.0"
+}
+
+node {
+    download = true
+
+    version = '10.15.0'
+    yarnVersion = '1.13.0'
+}
+
+apply plugin: 'base'
+
+clean.delete << file('node_modules')
+
+task run(type: NodeTask, dependsOn: ['yarn_install']) {
+    script = file('index.js')
+    args = []
+}
