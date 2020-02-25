@@ -15,7 +15,7 @@ stage('Run') {
 
             def output = sh(script: './gradlew run', returnStdout: true)
             def body = (output =~ /(?ms)<html>.*<\/html>/)[0]
-            email = [to: emailAddress, from: emailAddress, subject: "Market Performance - ${new Date().format('yyyy/MM/dd')}", body: "${body}"]
+            email = [to: emailAddress, from: emailAddress, subject: "Market Performance - ${new Date().format('yyyy/MM/dd HH:mm')}", body: "${body}"]
         } catch (err) {
             currentBuild.result = "FAILURE"
 
