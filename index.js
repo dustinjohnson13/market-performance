@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer')
 
 const maxAttempts = 5
 const waitOptions = {waitUntil: 'networkidle0', timeout: 90000}
-const coxDataUsageUrl = 'https://www.marketwatch.com/'
+const url = 'https://www.marketwatch.com/'
 
 const run = async () => {
     let attempts = 0;
@@ -12,10 +12,10 @@ const run = async () => {
         try {
             browser = await puppeteer.launch({headless: true})
             const page = await browser.newPage()
-            await page.goto(coxDataUsageUrl, waitOptions)
+            await page.goto(url, waitOptions)
 
             const marketPerformance = await page.evaluate(() => document.querySelector('.markets__group').innerText);
-            const eachCol = marketPerformance.split('\t')
+            const eachCol = marketPerformance.split('\t').filter(it => it.trim())
             let email = `<html>
                                 <head>
                                     <style>
@@ -45,8 +45,6 @@ const run = async () => {
             email += '</table></body></html>'
 
             console.log(`${email}`)
-
-            // console.log(marketPerformance)
 
             process.exit(0)
         } catch (e) {
